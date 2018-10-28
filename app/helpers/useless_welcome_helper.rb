@@ -1,0 +1,2 @@
+module UselessWelcomeHelper
+end
