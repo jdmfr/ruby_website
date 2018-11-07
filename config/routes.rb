@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   
 
 
-  resources :collect_lines
   resources :orders
   resources :line_items
   resources :carts
