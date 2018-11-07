@@ -26,7 +26,14 @@
               </div>
                 <% Category.all.each do |cate| %>
 
-               <%= link_to cate.name, products_url(category: cate.name) ,:class=> "list-group-item list-group-item-action" %>
+               <%= link_to cate.name, products_url(category: cate.id) ,:class=> "list-group-item list-group-item-action" %>
+               <% end %>
+              <div class="list-group-item font-weight">
+               <h4>Provider</h4>
+              </div>
+                <% Provider.all.each do |prov| %>
+
+               <%= link_to prov.name, products_url(provider: prov.id) ,:class=> "list-group-item list-group-item-action" %>
                <% end %>
 
             </div>

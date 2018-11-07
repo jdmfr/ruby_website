@@ -1,42 +1,61 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @product.title %>
-</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Home",root_url %></li>
+      <li class="breadcrumb-item"><%= link_to "Products",products_url %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name ,products_url(category: @product.category_id ) %> </li>
+      <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+  </nav>
+  
+    <h2><%=  @product.title %> <span class="badge badge-info">Hot</span></h2>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <p><strong>Sales:</strong>
+        <%= @product.volume %></p>
+      <p>
+        <div class="clearfix" style="margin-bottom: 5px;"></div>
+      <strong>Category:</strong>
+      <%= @product.category.name if @product.category%>
+      </p>
+      <div class="clearfix" style="margin-bottom: 5px;"></div>
+      <p>
+      <strong>Provider:</strong>
+      <%= @product.provider.name if @product.provider %>
+      </p>
+      <div class="clearfix" style="margin-bottom: 5px;"></div>
+      <p>
+      <strong>Favourties:</strong>
+      <%= @product.likes_count %>
+      </p>
+      <div class="clearfix" style="margin-bottom: 5px;"></div>
+      <p>
+      <strong>Price:</strong>
+      <%= @product.price %>
+      </p>
+      <div class="clearfix" style="margin-bottom: 5px;"></div>
+     </div>
+     <div class="col-md-6 align-right">
+        <%= image_tag( @product.image_url.url , :class =>"card-img-right flex-auto d-none d-md-block", :alt =>"Card image cap",:size => "150x150") if @product.image_url.url%>
+     </div>
+  </div>
 
-<p>
-  <strong>Price:</strong>
-  <%= @product.price %>
-</p>
+  <div class="row">
+    <div class="col-md-12">
+    <p>
+      <strong>Description:</strong><br>
+      <%= @product.description %>
+    </p>
+    </div>
+    <div class="col-md-12">
+      <%= button_to 'Add to cart',line_items_path(product_id: @product),:class => "btn btn-outline-success" %><br>
+      <%= button_to 'Back', products_path,:class => "btn  btn-outline-info" %>
+      <% if is_admin %>
+        <%= button_to 'Edit', edit_product_path(@product),method: :get ,:class => "btn  btn-outline-primary"%> 
+      <%end%>
+    </div>
 
-<p>
-  <strong>Image:</strong>
-  <%= image_tag @product.image_url.url if @product.image_url?  %>
-</p>
-
-<p>
-  <strong>Sales:</strong>
-  <%= @product.volume %>
-</p>
-<p>
-  <strong>Category:</strong>
-  <%= @product.category.name if @product.category%>
-</p>
-<p>
-  <strong>Provider:</strong>
-  <%= @product.provider.name if @product.provider %>
-</p>
-
-<p>
-  <strong>Favourties:</strong>
-  <%= @product.favorites %>
-</p>
-
-<%= link_to 'Edit', edit_product_path(@product) %> |
-<%= link_to 'Back', products_path %>
+  </div>

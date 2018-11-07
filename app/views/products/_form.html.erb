@@ -11,42 +11,44 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+  <div class="form-group">
+     <label for="" class="col-md-2 control-label">Title</label>
+     <div class="col-md-4">
+        <%= form.text_field :name ,  :class => "form-control" , :placeholder => "Title"%>
+     </div>
+        <label for="" class="col-md-2 control-label">Price</label>
+     <div class="col-md-4">
+        <%= form.text_field :price ,:class =>"form-control" ,:placeholder => "Price"%>
+     </div>
+      <label for="" class="col-md-2 control-label">Category</label>
+     <div class="col-md-4">
+        <div ><%= form.collection_select(:category_id, Category.all, :id, :name,:class =>"form-control" )%></div>
+     </div>
+     <label for="" class="col-md-2 control-label">Provider</label>
+     <div class="col-md-4">
+        <%= form.collection_select(:provider_id, Provider.all, :id, :name,:class =>"form-control") %>
+     </div>
+      
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
+      <%= form.label :image_url,:class=>"col-md-2 control-label" %> 
+           <div class="col-md-4">
+      <%= form.file_field :image_url %>
+      <%= form.hidden_field :image_url_cache %>
+      </div>
 
-  <div class="field">
-    <%= form.label :price %>
-    <%= form.text_field :price %>
-  </div>
+    
+      <label for="" class="col-md-2 control-label">Description</label>
+      <br>
+      <div class="col-md-4">
+        <%= form.text_area :description ,:rows =>"3"%>
+    
+        <p>请不要超过500个字</p>
+      </div>
 
-  <div class="field">
-    <%= form.label :image_url %>
-    <%= form.file_field :image_url %>
-    <%= form.hidden_field :image_url_cache %>
-  </div>
+
+      <%=form.submit "Submit", :class => "btn btn-lg btn-primary btn-block" %>
+      <%= link_to 'Back', root_url,:class => "btn btn-sm btn-block"%>
+    </div>
+
   
-
-  <div><%= form.collection_select(:category_id, Category.all, :id, :name) %></div>
-
-   <div><%= form.collection_select(:provider_id, Provider.all, :id, :name) %></div>
-  <div class="field">
-    <%= form.label :volume %>
-    <%= form.number_field :volume%>
-  </div>
-
-  <div class="field">
-    <%= form.label :favorites %>
-    <%= form.number_field :favorites %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

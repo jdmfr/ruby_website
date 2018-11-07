@@ -23,6 +23,8 @@
               </h3>
               <div class="mb-1 text-muted">Nov 12</div>
               <p class="card-text mb-auto"><%= truncate(strip_tags(product.description),length: 80) if product.description%></p>
+                <%= link_to  star_text, star_product_path(product),method: :patch, :class=>"text-black" ,id:'star_link' ,remote: true %>
+                 
             </div>
                <%= image_tag( product.image_url.url , :class =>"card-img-right flex-auto d-none d-md-block", :alt =>"Card image cap",:size => "150x150") if product.image_url.url%>
                <%= button_to 'Add to cart',line_items_path(product_id: product),:class => "btn btn-outline-success" %>
@@ -48,12 +50,12 @@
     <% end %>
 
     <% (@first_page..@last_page).each do |page_number| %>
-      <li><%= link_to page_number , products_path(page: page_number),:class => "page-link" %></li>
+      <li><%= link_to page_number , products_path(page: page_number,category: params[:category]),:class => "page-link" %></li>
     <% end %>
 
     <% if @page < @last_page %>
     <li class="page-item">
-      <%= link_to products_path(page: ( @page +1)),:class => "page-link" do%>
+      <%= link_to products_path(page: ( @page +1),category: params[:category] ),:class => "page-link" do%>
       <span aria-hidden="true">next</span>
       <% end %>
     </li>

@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_01_143109) do
+ActiveRecord::Schema.define(version: 2018_11_07_155854) do
+
+  create_table "actions", force: :cascade do |t|
+    t.string "action_type", null: false
+    t.string "action_option"
+    t.string "target_type"
+    t.integer "target_id"
+    t.string "user_type"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["target_type", "target_id", "action_type"], name: "index_actions_on_target_type_and_target_id_and_action_type"
+    t.index ["user_type", "user_id", "action_type"], name: "index_actions_on_user_type_and_user_id_and_action_type"
+  end
 
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -43,6 +56,9 @@ ActiveRecord::Schema.define(version: 2018_11_01_143109) do
     t.integer "pay_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order_status", default: 0
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -56,6 +72,7 @@ ActiveRecord::Schema.define(version: 2018_11_01_143109) do
     t.datetime "updated_at", null: false
     t.integer "category_id"
     t.integer "provider_id"
+    t.integer "likes_count", default: 0
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["provider_id"], name: "index_products_on_provider_id"
   end

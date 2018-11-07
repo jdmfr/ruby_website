@@ -1,16 +1,18 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:star,:show, :edit, :update, :destroy]
+  before_action :current_user, only:[:star]
   LIMITED_PRODUCTS_NUM=10
+
   # GET /products
   # GET /products.json
   def index
    
-    if params[:category].blank?
-      @products = Product.all
-      @category_id=nil
+    if !params[:category].blank?
+      @products = Product.where(["category_id = ? ", params[:category]])
+    elsif !params[:provider].blank?
+      @products = Product.where(["provider_id = ? ", params[:provider]])
     else
-      @category_id = Category.find_by(name: params[:category]).id
-      @products = Product.where(:category_id => @category_id)
+      @products = Product.all      
     end
 
 
@@ -34,7 +36,7 @@ class ProductsController < ApplicationController
 
 
 #    @products = Product.all
-    @first_page =1
+      @first_page =(@products.count==0)? 0:1
     @last_page=(@products.count / LIMITED_PRODUCTS_NUM)+1
 
     @products = @products.offset((@page-1) * LIMITED_PRODUCTS_NUM).limit(LIMITED_PRODUCTS_NUM)
@@ -97,6 +99,22 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def star 
+
+    if @current_user.like_product?(@product) == false
+      @current_user.like_product(params[:id])
+      @favorite_exists = true
+    else
+      @current_user.unlike_product(params[:id])
+  #    @product.likes_count.save(touch: false)
+      @favorite_exists = false
+    end
+
+  end
+
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

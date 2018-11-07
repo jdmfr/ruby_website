@@ -6,6 +6,10 @@
 </p>
 
 <p>
+  <strong>User:</strong>
+  <%= @order.user_id%>
+</p>
+<p>
   <strong>Address:</strong>
   <%= @order.address %>
 </p>
@@ -25,5 +29,45 @@
   <%= @order.pay_type %>
 </p>
 
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+<p>
+  <strong>STatus:</strong>
+  <%= @order.order_status %>
+</p>
+
+<div class="table-responsive m-t">
+        <table class="table invoice-table">
+            <thead>
+                <tr>
+                    <th>清单</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% @order.line_items.each do|item|%>
+                <tr>
+                    <td>
+                        <div><strong><%= link_to item.product.title ,product_path(item.product) %></strong>
+                        </div>
+                    </td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.product.price %></td>
+                    <td>&yen;<%= item.total_price %></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <!-- /table-responsive -->
+<% if is_admin %>
+  <%if @order.order_status == "Not send" %>
+    <%= button_to "Send" , setting_order_path ,method: :get,:class =>"btn btn-primary-lg" %>
+  <% end %>
+<% end %>
+<% if @current_user.id == @order.user_id && @order.order_status =="Sending" %>
+  <%= button_to "Recieve" , setting_order_path ,method: :get,:class =>"btn btn-success-lg" %>
+<% end %>
+<%= tag(:input, :type => "hidden", :name =>   
+request_forgery_protection_token.to_s, :value =>   
+form_authenticity_token) %>   

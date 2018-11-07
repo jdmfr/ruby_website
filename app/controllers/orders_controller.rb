@@ -2,8 +2,8 @@ class OrdersController < ApplicationController
   include CurrentCart
   before_action :set_cart , only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
-
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :current_user
+  before_action :set_order, only: [:setting,:show, :edit, :update, :destroy]
 
   # GET /orders
   # GET /orders.json
@@ -24,12 +24,19 @@ class OrdersController < ApplicationController
   # GET /orders/1/edit
   def edit
   end
+  def setting
+    @order.order_status =(@order.order_status == "Not Send") ? "Sending" : "Recieved"
+    @order.save
+    redirect_to @order
+
+  end
 
   # POST /orders
   # POST /orders.json
   def create
     @order = Order.new(order_params)
     @order.add_line_items_from_cart(@cart)
+    @order.user_id=@current_user.id
 
     respond_to do |format|
       if @order.save
@@ -77,7 +84,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:name, :address, :email, :phone, :pay_type)
+      params.require(:order).permit(:name, :address, :email, :phone, :pay_type,:user_id, :order_status)
     end
 
     def ensure_cart_isnt_empty

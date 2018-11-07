@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>UID</th>
       <th>Name</th>
       <th>Group</th>
       <th>Phone</th>
@@ -16,6 +17,8 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+
+        <td><%= user.id %></td>
         <td><%= user.name %></td>
         <td><%= user.group %></td>
         <td><%= user.phone %></td>
