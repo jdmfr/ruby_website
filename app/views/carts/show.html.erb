@@ -1,0 +1,48 @@
+
+    <div class="table-responsive m-t">
+        <table class="table invoice-table">
+            <thead>
+                <tr>
+                    <th>清单</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<% @cart.line_items.each do|item|%>
+                <tr>
+                    <td>
+                        <div><strong><%= link_to item.product.title ,product_path(item.product) %></strong>
+                        </div>
+                    </td>
+                    <td><%= item.quantity %></td>
+                    <td><%= item.product.price %></td>
+                    <td>&yen;<%= item.total_price %></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <!-- /table-responsive -->
+
+    <table class="table invoice-total">
+        <tbody>
+            <tr>
+                <td><strong>总价：</strong>
+                </td>
+                <td>&yen;<%= @cart.total_price %> </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        <%= button_to 'Generate order' , new_order_url, method: :get, :class =>"btn btn-primary" %>
+        <%= button_to 'Empty Cart',@cart, method: :delete,data: {confirm: 'Are you sure?'} ,:class =>"btn btn-outline-danger btn-sm"%>
+    </div>
+
+<br>
+<div class="card bg-info text-white">
+    <div class="card-body"><strong>注意：</strong>请在30日内完成付款，否则订单会自动取消。</div>
+</div>
+

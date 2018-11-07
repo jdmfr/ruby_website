@@ -1,0 +1,19 @@
+<div class="text-center">
+    <div class="form-signin">
+    	<%= image_tag('logo.svg' ,:size => "72x72" ,:class =>"mb-4") %>
+    	<%= form_tag do %>
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      
+      <%= text_field_tag :name ,params[:name] ,:class =>"form-control" ,:placeholder => "Username"%>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <%= password_field_tag :password ,params[:password],:class =>"form-control" ,:placeholder => "Password"%>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <%=submit_tag "login", :class => "btn btn-lg btn-primary btn-block" %>
+      <% end %>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    </div>
+</div>
